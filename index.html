@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+  <html>
+  <meta charset="utf-8">
+  <link href="nvd3/src/nv.d3.css" rel="stylesheet" type="text/css">
+  <link href="bootstrap/bootstrap.css" rel="stylesheet" type="text/css">
+  <style>
+
+  body {
+    overflow-y:scroll;
+  }
+
+  </style>
+  <script src="jquery/jquery.min.js"></script>
+  <script src="bootstrap/bootstrap.min.js"></script>
+  <body>
+  <div class="container">
+    <h2>Saleh's Differential Equation Solver</h2>
+    <div class="row">
+      <div class="span3">
+        <form>
+          <fieldset>
+            <legend>Options</legend>
+            <label>Equation</label>
+            dy/dx = <input id="equation" type="text" placeholder="Type equation (ex: y+4*x)...">
+            <span class="help-block">Please type an equation as a Javascript expression. This means use 2*x instead of 2x and x*x or pow(x, 2) instead of x^2.</span>
+            <label>Initial Point</label>
+            (<input id="x0" type="text" style="width: 32px" placeholder="x">, <input id="y0" type="text" style="width: 32px" placeholder="y">)
+            <br>
+            Steps = <input id="steps" type="text" value="10" style="width: 50px"> to x = <input id="to_x" type="text" value="5" style="width: 50px">
+            <button id="solve" class="btn btn-primary">Solve</button>
+          </fieldset>
+        </form>
+      </div>
+      <div class="span9" style="height: 400px;">
+        <svg id="chart"></svg>
+      </div>
+    </div>
+    <hr>
+    <footer>Copyright 2013. Property of Saleh Hamadeh. No rights reserved. Enjoy!</footer>
+  </div>
+
+  <script src="nvd3/lib/d3.v3.js"></script>
+  <script src="nvd3/nv.d3.js"></script>
+  <script src="nvd3/src/models/legend.js"></script>
+  <script src="nvd3/src/models/line.js"></script>
+  <script src="nvd3/src/utils.js"></script>
+  <script>
+
+  $('#solve').click(function() {
+    //Format A
+    nv.addGraph({
+      generate: function() {
+
+        var chart = nv.models.lineChart();
+
+        chart.xAxis
+          .axisLabel('x')
+          .tickFormat(d3.format(',r'));
+
+        chart.yAxis
+          .axisLabel('y')
+          .tickFormat(d3.format(',r'));
+
+        d3.select('#chart')
+          .datum(getGraphFromDiffEq($('#equation').val(), parseFloat($('#x0').val()), parseFloat($('#y0').val()), parseInt($('#steps').val()), parseFloat($('#to_x').val())))
+          .transition().duration(500)
+          .call(chart);
+
+        return chart;
+      },
+      callback: function(graph) {
+        window.onresize = function() {
+          d3.select('#chart')
+            .call(graph);
+        };
+      }
+    });
+
+    return false;
+  });
+  </script>
+  <script src="euler.js"></script>
+</html>
