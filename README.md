@@ -1,4 +1,8 @@
-eulers-method-webapp
+Euler's Method Web Application
 ====================
 
-A web app that graphs the solution to a 1st order linear differential equation using Euler's Method
+A web app that graphs the solution to a 1st order linear differential equation using Euler's Method.
+
+Check out the live demo at: [http://shamadeh.com/demos/eulers-method/index.html][demo].
+
+[demo]: http://shamadeh.com/demos/eulers-method/index.html
